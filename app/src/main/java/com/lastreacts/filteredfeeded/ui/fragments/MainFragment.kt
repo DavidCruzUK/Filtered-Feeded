@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.lastreacts.filteredfeeded.R
@@ -33,10 +35,35 @@ class MainFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            searchButton.id -> navController.navigate(R.id.action_mainFragment_to_tweetsListFragment)
+            searchButton.id -> goToTweetsListFragmentOrError()
         }
     }
 
-    private fun addOnClickListeners() = searchButton.setOnClickListener(this)
+    private fun goToTweetsListFragmentOrError() {
+        wordsEditTextHasContent()?.let {
+            navController.navigate(
+                R.id.action_mainFragment_to_tweetsListFragment,
+                bundleOf(TweetsListFragment.WORDS_KEY to it)
+            )
+        } ?: kotlin.run {
+            Toast.makeText(
+                context,
+                getText(R.string.empty_search_toast_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun addOnClickListeners() {
+        searchButton.setOnClickListener(this)
+    }
+
+    private fun wordsEditTextHasContent(): String? {
+        return if (!wordsToSearchEditText.text.isNullOrBlank()) {
+            wordsToSearchEditText.text.toString().trim()
+        } else {
+            null
+        }
+    }
 
 }

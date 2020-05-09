@@ -30,7 +30,6 @@ ext {
     classPathDependencies = [
             androidTools    : "com.android.tools.build:gradle:${androidTools_version}",
             kotlin          : "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}",
-            safeArgs        : "androidx.navigation:navigation-safe-args-gradle-plugin:${navigation_version}"
     ]
 
     appDependencies = [

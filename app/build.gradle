@@ -11,8 +11,8 @@ android {
         applicationId configParams.applicationId
         minSdkVersion configParams.minSdkVersion
         targetSdkVersion configParams.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode configParams.versionCode
+        versionName configParams.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
