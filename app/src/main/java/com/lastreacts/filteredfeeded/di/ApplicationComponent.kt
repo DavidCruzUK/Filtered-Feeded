@@ -12,7 +12,7 @@ import javax.inject.Singleton
         ApplicationModule::class
     ]
 )
-interface ApplicationComponent {
+interface ApplicationComponent: Injections {
 
     @Component.Factory
     interface Factory {
