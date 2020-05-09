@@ -14,6 +14,17 @@ ext {
 
     dagger_version = '2.27'
 
+    configParams = [
+            applicationId       : "com.lastreacts.filteredfeeded",
+            compileSdkVersion   : 29,
+            buildToolsVersion   : "29.0.3",
+            minSdkVersion       : 21,
+            targetSdkVersion    : 29,
+            versionCode         : 1,
+            versionName         : "1.0",
+            kotlinoptions       : '1.8'
+    ]
+
     appDependencies = [
             dagger: "com.google.dagger:dagger:${dagger_version}",
     ]
