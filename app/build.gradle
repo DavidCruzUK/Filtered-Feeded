@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion configParams.compileSdkVersion
+    buildToolsVersion configParams.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.lastreacts.filteredfeeded"
-        minSdkVersion 23
-        targetSdkVersion 29
+        applicationId configParams.applicationId
+        minSdkVersion configParams.minSdkVersion
+        targetSdkVersion configParams.targetSdkVersion
         versionCode 1
         versionName "1.0"
 

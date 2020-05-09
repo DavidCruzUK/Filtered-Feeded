@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/app_navigation_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.lastreacts.filteredfeeded.ui.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_tweetsListFragment"
+            app:destination="@id/tweetsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tweetsListFragment"
+        android:name="com.lastreacts.filteredfeeded.ui.fragments.TweetsListFragment"
+        android:label="TweetsListFragment" />
+</navigation>
