@@ -1,17 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/testClick"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/startGuideLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="David Cruz Anaya"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/endGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/description_title_text"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toTopOf="@+id/wordsToSearchEditText"
+        app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+        app:layout_constraintStart_toStartOf="@+id/startGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/wordsToSearchEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_word_search_edit_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+        app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_text_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/wordsToSearchEditText"
+        app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/wordsToSearchEditText"
+        app:layout_constraintVertical_bias="0.15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

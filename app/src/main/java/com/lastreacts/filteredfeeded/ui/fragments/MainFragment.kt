@@ -10,7 +10,7 @@ import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment: BaseFragment() {
+class MainFragment : BaseFragment(), View.OnClickListener {
 
     private lateinit var navController: NavController
 
@@ -26,11 +26,17 @@ class MainFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
-        testClick.setOnClickListener {
-            navController.navigate(R.id.action_mainFragment_to_tweetsListFragment)
-        }
+        addOnClickListeners()
     }
 
     override fun layoutRes(): Int = R.layout.fragment_main
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            searchButton.id -> navController.navigate(R.id.action_mainFragment_to_tweetsListFragment)
+        }
+    }
+
+    private fun addOnClickListeners() = searchButton.setOnClickListener(this)
 
 }
