@@ -39,6 +39,10 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    private fun addOnClickListeners() {
+        searchButton.setOnClickListener(this)
+    }
+
     private fun goToTweetsListFragmentOrError() {
         wordsEditTextHasContent()?.let {
             navController.navigate(
@@ -52,10 +56,6 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-
-    private fun addOnClickListeners() {
-        searchButton.setOnClickListener(this)
     }
 
     private fun wordsEditTextHasContent(): String? {

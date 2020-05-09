@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.EMPTY
+import com.lastreacts.filteredfeeded.ui.adapters.TweetsAdapter
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_tweets_list.*
 
@@ -18,6 +21,11 @@ class TweetsListFragment : BaseFragment() {
     override fun layoutRes(): Int = R.layout.fragment_tweets_list
 
     private lateinit var words: String
+
+    private val adapter = TweetsAdapter { id ->
+        // TODO: implement TweetDetailFragment retrived from Room
+        Toast.makeText(context, "$id To TweerDetailFragmetn!", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,8 +43,15 @@ class TweetsListFragment : BaseFragment() {
                 words = it.getString(WORDS_KEY, String.EMPTY)
             }
         }
-        testText.text = words
+        initialiseRecyclerView()
 
+        adapter.tweetsList = listOf("David", "Cruz", "Anaya")
+    }
+
+    private fun initialiseRecyclerView() = tweetsListRecyclerView?.let {
+        it.layoutManager = LinearLayoutManager(context)
+        it.setHasFixedSize(true)
+        it.adapter = adapter
     }
 
 }

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/app_navigation_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation_graph"
     app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.lastreacts.filteredfeeded.ui.fragments.MainFragment"
-        android:label="MainFragment" >
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_tweetsListFragment"
             app:destination="@id/tweetsListFragment"
@@ -19,5 +22,6 @@
     <fragment
         android:id="@+id/tweetsListFragment"
         android:name="com.lastreacts.filteredfeeded.ui.fragments.TweetsListFragment"
-        android:label="TweetsListFragment" />
+        android:label="TweetsListFragment"
+        tools:layout="@layout/fragment_tweets_list"/>
 </navigation>
