@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.widget.Toast
 
 fun Context.isConnectedToNetwork(): Boolean {
     try {
@@ -30,3 +31,6 @@ fun Context.isConnectedToNetwork(): Boolean {
         return false
     }
 }
+
+fun Context.showToast(message: String) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

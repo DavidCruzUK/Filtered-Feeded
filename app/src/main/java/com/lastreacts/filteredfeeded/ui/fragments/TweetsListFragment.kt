@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastreacts.enums.Errors
@@ -12,6 +11,7 @@ import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.EMPTY
 import com.lastreacts.filteredfeeded.extensions.getViewModel
 import com.lastreacts.filteredfeeded.extensions.isConnectedToNetwork
+import com.lastreacts.filteredfeeded.extensions.showToast
 import com.lastreacts.filteredfeeded.ui.adapters.TweetsAdapter
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
 import com.lastreacts.filteredfeeded.ui.viewmodels.TweetListViewModel
@@ -88,13 +88,8 @@ class TweetsListFragment : BaseFragment() {
             GlobalScope.launch {
                 viewModel.showCurrentListOfTweetsOrError()
             }
-        } else {
-            Toast.makeText(
-                context,
-                model.error,
-                Toast.LENGTH_SHORT
-            ).show()
         }
+        context?.showToast(model.error)
     }
 
     private fun isExceedRequestError(model: TweetListViewModel.UiModel.OnError) =

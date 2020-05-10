@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.getViewModel
+import com.lastreacts.filteredfeeded.extensions.showToast
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
 import com.lastreacts.filteredfeeded.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -71,11 +72,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             )
             showProgressBar(false)
         } ?: kotlin.run {
-            Toast.makeText(
-                context,
-                getText(R.string.empty_search_toast_text),
-                Toast.LENGTH_SHORT
-            ).show()
+            context?.showToast(getText(R.string.empty_search_toast_text).toString())
             showProgressBar(false)
         }
     }
