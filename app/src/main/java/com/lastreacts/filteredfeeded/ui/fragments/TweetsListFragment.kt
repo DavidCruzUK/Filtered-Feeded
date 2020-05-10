@@ -11,11 +11,14 @@ import com.lastreacts.filteredfeeded.extensions.EMPTY
 import com.lastreacts.filteredfeeded.extensions.getViewModel
 import com.lastreacts.filteredfeeded.ui.adapters.TweetsAdapter
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
+import com.lastreacts.filteredfeeded.ui.interfaces.StreamEventsImpl
 import com.lastreacts.filteredfeeded.ui.viewmodels.TweetListViewModel
 import kotlinx.android.synthetic.main.fragment_tweets_list.*
+import twitter4j.Status
+import java.lang.Exception
 import javax.inject.Inject
 
-class TweetsListFragment : BaseFragment() {
+class TweetsListFragment : BaseFragment(), StreamEventsImpl {
 
     companion object {
         const val WORDS_KEY = "TweetsListFragment::WORDS_KEY"
@@ -50,8 +53,7 @@ class TweetsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         retrieveWordsDataFromBundle()
         initialiseRecyclerView()
-
-        adapter.tweetsList = viewModel.testViewHolder()
+        viewModel.initStream(this, words)
     }
 
     private fun retrieveWordsDataFromBundle() {
@@ -66,6 +68,14 @@ class TweetsListFragment : BaseFragment() {
         it.layoutManager = LinearLayoutManager(context)
         it.setHasFixedSize(true)
         it.adapter = adapter
+    }
+
+    override fun onStatusReceived(status: Status?) {
+        print(status?.text)
+    }
+
+    override fun onExemption(exception: Exception?) {
+        print(exception?.localizedMessage)
     }
 
 }

@@ -21,6 +21,8 @@ ext {
     navigation_version = '2.2.2'
     lifecycle_version = '2.2.0'
 
+    twitter4j_version = '4.0.7'
+
     junit_version = '4.13'
     junit_intrsument_version = '1.1.1'
     espresso_version = '3.2.0'
@@ -53,6 +55,13 @@ ext {
             viewmodel               : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}",
             livedata                : "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle_version}",
             lifeCycleExtensions     : "androidx.lifecycle:lifecycle-extensions:${lifecycle_version}",
+    ]
+
+    twitter4jDependencies = [
+            core                    : "org.twitter4j:twitter4j-core:${twitter4j_version}",
+            stream                  : "org.twitter4j:twitter4j-stream:${twitter4j_version}",
+            async                   : "org.twitter4j:twitter4j-async:${twitter4j_version}",
+            examples                : "org.twitter4j:twitter4j-examples:${twitter4j_version}",
     ]
 
     kaptDependencies = [

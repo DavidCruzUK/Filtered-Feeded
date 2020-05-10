@@ -36,8 +36,12 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+    implementation project(':usecases')
+    implementation project(':data')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation appDependencies.values()
+    implementation twitter4jDependencies.values()
 
     kapt kaptDependencies.values()
 

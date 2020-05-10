@@ -1,2 +1,5 @@
 rootProject.name='Filtered Feeded'
 include ':app'
+include ':domain'
+include ':usecases'
+include ':data'
