@@ -33,14 +33,18 @@ class TweetsListFragment : BaseFragment() {
         getViewModel { tweetListViewModel }
     }
 
-    override fun layoutRes(): Int = R.layout.fragment_tweets_list
-
     private lateinit var words: String
 
     private val adapter = TweetsAdapter { tweetDb, position ->
         GlobalScope.launch {
             viewModel.deleteTweet(tweetDb, position)
         }
+    }
+
+    override fun layoutRes(): Int = R.layout.fragment_tweets_list
+
+    override fun showProgressBar(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onCreateView(
@@ -54,6 +58,7 @@ class TweetsListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showProgressBar(true)
         viewModel.model.observe(viewLifecycleOwner, Observer(::updateUI))
         retrieveWordsDataFromBundle()
         initialiseRecyclerView()
@@ -75,10 +80,11 @@ class TweetsListFragment : BaseFragment() {
             is TweetListViewModel.UiModel.DeleteTweet -> adapter.deleteTweetAtPosition(model.position)
             is TweetListViewModel.UiModel.OnError -> showStoredListOfTweetsOrToast(model)
         }
+        showProgressBar(false)
     }
 
     private fun showStoredListOfTweetsOrToast(model: TweetListViewModel.UiModel.OnError) {
-        if (model.error.contains(Errors.EXCEED_REQUEST.value, false)) {
+        if (isExceedRequestError(model)) {
             GlobalScope.launch {
                 viewModel.showCurrentListOfTweetsOrError()
             }
@@ -91,7 +97,10 @@ class TweetsListFragment : BaseFragment() {
         }
     }
 
-    private fun shouldStartTwitterStream(savedInstanceState: Bundle?) : Boolean {
+    private fun isExceedRequestError(model: TweetListViewModel.UiModel.OnError) =
+        model.error.contains(Errors.EXCEED_REQUEST.value, false)
+
+    private fun shouldStartTwitterStream(savedInstanceState: Bundle?): Boolean {
         return savedInstanceState == null && requireContext().isConnectedToNetwork()
     }
 

@@ -27,6 +27,8 @@ ext {
 
     junit_version = '4.13'
     junit_intrsument_version = '1.1.1'
+    testrunner_version = "1.2.0"
+    testrules_version = "1.1.0"
     espresso_version = '3.2.0'
 
     configParams = [
@@ -80,6 +82,8 @@ ext {
 
     androidTestDependencies = [
             jUnit                   : "androidx.test.ext:junit:${junit_intrsument_version}",
+            testRunner              : "androidx.test:runner:${testrunner_version}",
+            testRules               :  "androidx.test:rules:${testrules_version}",
             espresso                : "androidx.test.espresso:espresso-core:${espresso_version}",
     ]
 }

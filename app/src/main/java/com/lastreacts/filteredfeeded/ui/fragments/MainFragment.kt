@@ -44,6 +44,10 @@ class MainFragment : BaseFragment(), View.OnClickListener {
 
     override fun layoutRes(): Int = R.layout.fragment_main
 
+    override fun showProgressBar(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             searchButton.id -> goToTweetsListFragmentOrError()
@@ -59,17 +63,20 @@ class MainFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun goToTweetsListFragmentOrError() {
+        showProgressBar(true)
         wordsEditTextHasContent()?.let {
             navController.navigate(
                 R.id.action_mainFragment_to_tweetsListFragment,
                 bundleOf(TweetsListFragment.WORDS_KEY to it)
             )
+            showProgressBar(false)
         } ?: kotlin.run {
             Toast.makeText(
                 context,
                 getText(R.string.empty_search_toast_text),
                 Toast.LENGTH_SHORT
             ).show()
+            showProgressBar(false)
         }
     }
 
