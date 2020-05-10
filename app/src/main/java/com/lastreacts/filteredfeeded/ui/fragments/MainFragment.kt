@@ -9,10 +9,20 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.lastreacts.filteredfeeded.R
+import com.lastreacts.filteredfeeded.extensions.getViewModel
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
+import com.lastreacts.filteredfeeded.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
 class MainFragment : BaseFragment(), View.OnClickListener {
+
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
+    private val viewModel: MainViewModel by lazy {
+        getViewModel { mainViewModel }
+    }
 
     private lateinit var navController: NavController
 
@@ -29,6 +39,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
         addOnClickListeners()
+        stopTweetStreamIfExisting()
     }
 
     override fun layoutRes(): Int = R.layout.fragment_main
@@ -37,6 +48,10 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             searchButton.id -> goToTweetsListFragmentOrError()
         }
+    }
+
+    private fun stopTweetStreamIfExisting() {
+        viewModel.stopStream()
     }
 
     private fun addOnClickListeners() {

@@ -9,7 +9,7 @@ import kotlin.properties.Delegates
 
 class TweetsAdapter(tweetsList: List<String> = emptyList(), private val listener: (id: Int) -> Unit) : RecyclerView.Adapter<TweetsViewHolder>() {
 
-    private var tweetsList: MutableList<String> by Delegates.observable(tweetsList.toMutableList()) { _, _, _ ->
+    var tweetsList: MutableList<String> by Delegates.observable(tweetsList.toMutableList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 

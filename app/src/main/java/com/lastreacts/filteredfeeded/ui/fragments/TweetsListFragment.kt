@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.EMPTY
 import com.lastreacts.filteredfeeded.extensions.getViewModel
 import com.lastreacts.filteredfeeded.ui.adapters.TweetsAdapter
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
-import com.lastreacts.filteredfeeded.ui.interfaces.StreamEventsImpl
 import com.lastreacts.filteredfeeded.ui.viewmodels.TweetListViewModel
 import kotlinx.android.synthetic.main.fragment_tweets_list.*
-import twitter4j.Status
-import java.lang.Exception
 import javax.inject.Inject
 
-class TweetsListFragment : BaseFragment(), StreamEventsImpl {
+class TweetsListFragment : BaseFragment() {
 
     companion object {
         const val WORDS_KEY = "TweetsListFragment::WORDS_KEY"
@@ -51,14 +49,25 @@ class TweetsListFragment : BaseFragment(), StreamEventsImpl {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.model.observe(viewLifecycleOwner, Observer(::updateUI))
         retrieveWordsDataFromBundle()
         initialiseRecyclerView()
-        viewModel.initStream(this, words)
+        if (savedInstanceState == null) {
+            viewModel.initStream(words)
+        } else {
+            adapter.tweetsList = viewModel.listOfTweets
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.onStop()
+    private fun updateUI(model: TweetListViewModel.UiModel) {
+        when (model) {
+            is TweetListViewModel.UiModel.AddTweet -> adapter.addItem(model.tweet)
+            is TweetListViewModel.UiModel.OnError -> Toast.makeText(
+                context,
+                model.error,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun retrieveWordsDataFromBundle() {
@@ -73,17 +82,6 @@ class TweetsListFragment : BaseFragment(), StreamEventsImpl {
         it.layoutManager = LinearLayoutManager(context)
         it.setHasFixedSize(true)
         it.adapter = adapter
-    }
-
-    override fun onStatusReceived(status: Status?) {
-        print(status?.text)
-        status?.let {
-            adapter.addItem(it.text)
-        }
-    }
-
-    override fun onExemption(exception: Exception?) {
-        print(exception?.localizedMessage)
     }
 
 }

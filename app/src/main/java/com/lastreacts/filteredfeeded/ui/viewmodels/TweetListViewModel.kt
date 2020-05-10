@@ -1,58 +1,44 @@
 package com.lastreacts.filteredfeeded.ui.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lastreacts.data.TwitterApiStreams
-import com.lastreacts.filteredfeeded.ui.interfaces.StreamEventsImpl
+import com.lastreacts.interfaces.StreamDataListener
 import com.lastreacts.interfaces.StreamEvents
-import twitter4j.StallWarning
 import twitter4j.Status
-import twitter4j.StatusDeletionNotice
 
-class TweetListViewModel(private val streamDataListener: TwitterApiStreams) : ViewModel(),
+class TweetListViewModel(private val streamDataListener: StreamDataListener) : ViewModel(),
     StreamEvents {
 
-    lateinit var listener: StreamEventsImpl
+    sealed class UiModel {
+        data class AddTweet(val tweet: String): UiModel()
+        data class OnError(val error: String): UiModel()
+    }
 
+    private val _model = MutableLiveData<UiModel>()
+    val model: LiveData<UiModel> get() = _model
 
-    fun initStream(listener: StreamEventsImpl, words: String) {
-        this.listener = listener
+    var listOfTweets: MutableList<String> = mutableListOf()
+
+    fun initStream(words: String) {
         streamDataListener.initStream(this, words)
-    }
-
-    override fun onTrackLimitationNotice(numberOfLimitedStatuses: Int) {
-        print(numberOfLimitedStatuses)
-    }
-
-    override fun onStallWarning(warning: StallWarning?) {
-        print(warning?.message)
     }
 
     override fun onException(ex: Exception?) {
         // TODO: implement error Handling for Stream
-        print(ex?.localizedMessage)
-        if (::listener.isInitialized) {
-            listener.onExemption(ex)
+        ex?.let {
+            _model.postValue(UiModel.OnError(it.localizedMessage!!))
         }
-    }
-
-    override fun onDeletionNotice(statusDeletionNotice: StatusDeletionNotice?) {
-        print(statusDeletionNotice?.statusId)
     }
 
     override fun onStatus(status: Status?) {
         // TODO: implement List Update
         print(status?.text)
-        if (::listener.isInitialized) {
-            listener.onStatusReceived(status)
+        status?.let {
+            listOfTweets.add(it.text)
+            _model.postValue(UiModel.AddTweet(status.text))
         }
-    }
-
-    override fun onScrubGeo(userId: Long, upToStatusId: Long) {
-        print(userId)
-    }
-
-    fun onStop() {
-        streamDataListener.onStop()
     }
 
 }

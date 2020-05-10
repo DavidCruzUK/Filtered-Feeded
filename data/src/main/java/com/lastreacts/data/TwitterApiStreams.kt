@@ -7,7 +7,7 @@ import twitter4j.TwitterStream
 import twitter4j.TwitterStreamFactory
 import twitter4j.conf.ConfigurationBuilder
 
-class TwitterApiStreams : StreamDataListener {
+class TwitterApiStreams : StreamDataListener{
 
     companion object {
         private const val consumerKeyValue = "myj9bbBcrfNS4YQ0XFm4156qG"
@@ -42,8 +42,10 @@ class TwitterApiStreams : StreamDataListener {
 
     }
 
-    override fun onStop() {
-        twitterStream.clearListeners()
+    override fun stopStream() {
+        if (::twitterStream.isInitialized) {
+            twitterStream.clearListeners()
+        }
     }
 
 }
