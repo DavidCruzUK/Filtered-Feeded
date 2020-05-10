@@ -30,19 +30,19 @@ ext {
     espresso_version = '3.2.0'
 
     configParams = [
-            applicationId       : "com.lastreacts.filteredfeeded",
-            compileSdkVersion   : 29,
-            buildToolsVersion   : "29.0.3",
-            minSdkVersion       : 21,
-            targetSdkVersion    : 29,
-            versionCode         : 1,
-            versionName         : "1.0",
-            kotlinoptions       : '1.8'
+            applicationId           : "com.lastreacts.filteredfeeded",
+            compileSdkVersion       : 29,
+            buildToolsVersion       : "29.0.3",
+            minSdkVersion           : 21,
+            targetSdkVersion        : 29,
+            versionCode             : 1,
+            versionName             : "1.0",
+            kotlinoptions           : '1.8',
     ]
 
     classPathDependencies = [
-            androidTools    : "com.android.tools.build:gradle:${androidTools_version}",
-            kotlin          : "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}",
+            androidTools            : "com.android.tools.build:gradle:${androidTools_version}",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}",
     ]
 
     appDependencies = [
@@ -61,10 +61,7 @@ ext {
     ]
 
     twitter4jDependencies = [
-            core                    : "org.twitter4j:twitter4j-core:${twitter4j_version}",
             stream                  : "org.twitter4j:twitter4j-stream:${twitter4j_version}",
-            async                   : "org.twitter4j:twitter4j-async:${twitter4j_version}",
-            examples                : "org.twitter4j:twitter4j-examples:${twitter4j_version}",
     ]
 
     roomDependencies = [
@@ -73,16 +70,16 @@ ext {
     ]
 
     kaptDependencies = [
-            daggerCompiler  : "com.google.dagger:dagger-compiler:${dagger_version}",
-            roomCompiler    : "androidx.room:room-compiler:${room_version}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${dagger_version}",
+            roomCompiler            : "androidx.room:room-compiler:${room_version}",
     ]
 
     testDependencies = [
-            jUnit       : "junit:junit:${junit_version}",
+            jUnit                   : "junit:junit:${junit_version}",
     ]
 
     androidTestDependencies = [
-            jUnit       : "androidx.test.ext:junit:${junit_intrsument_version}",
-            espresso    : "androidx.test.espresso:espresso-core:${espresso_version}",
+            jUnit                   : "androidx.test.ext:junit:${junit_intrsument_version}",
+            espresso                : "androidx.test.espresso:espresso-core:${espresso_version}",
     ]
 }

@@ -12,7 +12,7 @@ class TwitterApiStreams(
     private val consumerSecretKey: String,
     private val accessToken: String,
     private val accessSecretToken: String
-) : StreamDataListener{
+) : StreamDataListener {
 
     companion object {
         private const val SPLIT_PATTERN = ","
