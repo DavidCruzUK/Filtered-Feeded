@@ -18,9 +18,23 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "CONSUMER_KEY", "\"myj9bbBcrfNS4YQ0XFm4156qG\""
+            buildConfigField "String", "CONSUMER_SECRET_KEY", "\"5CgA0l7gGDbsXVzvMAywT0BaZ7eYSwLIwvfS34gMmZVWZHIp6f\""
+            buildConfigField "String", "ACCESS_TOKEN", "\"1000837614541398017-FwaUrGSwu9vSbT8yiEeAmnyiqJRnvG\""
+            buildConfigField "String", "ACCESS_SECRET_TOKEN", "\"gytiF01wwYNRzHddkdkSntt3afOqR8NfIXh2yUJC0ZNkn\""
+            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\""
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "CONSUMER_KEY", "\"myj9bbBcrfNS4YQ0XFm4156qG\""
+            buildConfigField "String", "CONSUMER_SECRET_KEY", "\"5CgA0l7gGDbsXVzvMAywT0BaZ7eYSwLIwvfS34gMmZVWZHIp6f\""
+            buildConfigField "String", "ACCESS_TOKEN", "\"1000837614541398017-FwaUrGSwu9vSbT8yiEeAmnyiqJRnvG\""
+            buildConfigField "String", "ACCESS_SECRET_TOKEN", "\"gytiF01wwYNRzHddkdkSntt3afOqR8NfIXh2yUJC0ZNkn\""
+            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\""
         }
     }
 
@@ -42,6 +56,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation appDependencies.values()
     implementation twitter4jDependencies.values()
+    implementation roomDependencies.values()
 
     kapt kaptDependencies.values()
 

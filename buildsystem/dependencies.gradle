@@ -16,6 +16,8 @@ ext {
     corektx_version = '1.2.0'
     constraintlayout_version = '1.1.3'
     recyclerview_version = '1.1.0'
+    room_version = '2.2.5'
+    coroutines_version = '1.3.6'
 
     dagger_version = '2.27'
     navigation_version = '2.2.2'
@@ -55,6 +57,7 @@ ext {
             viewmodel               : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}",
             livedata                : "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle_version}",
             lifeCycleExtensions     : "androidx.lifecycle:lifecycle-extensions:${lifecycle_version}",
+            coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}"
     ]
 
     twitter4jDependencies = [
@@ -64,8 +67,14 @@ ext {
             examples                : "org.twitter4j:twitter4j-examples:${twitter4j_version}",
     ]
 
+    roomDependencies = [
+            RoomRuntime             : "androidx.room:room-runtime:${room_version}",
+            room                    : "androidx.room:room-ktx:${room_version}",
+    ]
+
     kaptDependencies = [
             daggerCompiler  : "com.google.dagger:dagger-compiler:${dagger_version}",
+            roomCompiler    : "androidx.room:room-compiler:${room_version}",
     ]
 
     testDependencies = [

@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.EMPTY
 import com.lastreacts.filteredfeeded.extensions.getViewModel
+import com.lastreacts.filteredfeeded.extensions.isConnectedToNetwork
 import com.lastreacts.filteredfeeded.ui.adapters.TweetsAdapter
 import com.lastreacts.filteredfeeded.ui.base.BaseFragment
 import com.lastreacts.filteredfeeded.ui.viewmodels.TweetListViewModel
 import kotlinx.android.synthetic.main.fragment_tweets_list.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TweetsListFragment : BaseFragment() {
@@ -33,9 +36,10 @@ class TweetsListFragment : BaseFragment() {
 
     private lateinit var words: String
 
-    private val adapter = TweetsAdapter { id ->
-        // TODO: implement TweetDetailFragment retrieved from Room
-        Toast.makeText(context, "$id To TweetDetailFragment!", Toast.LENGTH_SHORT).show()
+    private val adapter = TweetsAdapter { tweetDb, position ->
+        GlobalScope.launch {
+            viewModel.deleteTweet(tweetDb, position)
+        }
     }
 
     override fun onCreateView(
@@ -52,22 +56,32 @@ class TweetsListFragment : BaseFragment() {
         viewModel.model.observe(viewLifecycleOwner, Observer(::updateUI))
         retrieveWordsDataFromBundle()
         initialiseRecyclerView()
-        if (savedInstanceState == null) {
-            viewModel.initStream(words)
-        } else {
-            adapter.tweetsList = viewModel.listOfTweets
+
+        GlobalScope.launch {
+            if (shouldStartTwitterStream(savedInstanceState)) {
+                viewModel.initStream(words)
+            } else {
+                viewModel.showCurrentListOfTweets()
+            }
         }
     }
 
     private fun updateUI(model: TweetListViewModel.UiModel) {
         when (model) {
+            is TweetListViewModel.UiModel.Content -> adapter.tweetsList =
+                model.tweets.toMutableList()
             is TweetListViewModel.UiModel.AddTweet -> adapter.addItem(model.tweet)
+            is TweetListViewModel.UiModel.DeleteTweet -> adapter.deleteTweetAtPosition(model.position)
             is TweetListViewModel.UiModel.OnError -> Toast.makeText(
                 context,
                 model.error,
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    private fun shouldStartTwitterStream(savedInstanceState: Bundle?) : Boolean {
+        return savedInstanceState == null && requireContext().isConnectedToNetwork()
     }
 
     private fun retrieveWordsDataFromBundle() {
