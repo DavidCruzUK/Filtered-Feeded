@@ -25,7 +25,8 @@ android {
             buildConfigField "String", "CONSUMER_SECRET_KEY", "\"5CgA0l7gGDbsXVzvMAywT0BaZ7eYSwLIwvfS34gMmZVWZHIp6f\""
             buildConfigField "String", "ACCESS_TOKEN", "\"1000837614541398017-FwaUrGSwu9vSbT8yiEeAmnyiqJRnvG\""
             buildConfigField "String", "ACCESS_SECRET_TOKEN", "\"gytiF01wwYNRzHddkdkSntt3afOqR8NfIXh2yUJC0ZNkn\""
-            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\""
+            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\"" // Max lifespan will be 10 minutes
+            buildConfigField "String", "TWEET_HAS_TIMESPAN", "\"true\"" // switch 'true' or 'false'
         }
         release {
             minifyEnabled true
@@ -34,7 +35,8 @@ android {
             buildConfigField "String", "CONSUMER_SECRET_KEY", "\"5CgA0l7gGDbsXVzvMAywT0BaZ7eYSwLIwvfS34gMmZVWZHIp6f\""
             buildConfigField "String", "ACCESS_TOKEN", "\"1000837614541398017-FwaUrGSwu9vSbT8yiEeAmnyiqJRnvG\""
             buildConfigField "String", "ACCESS_SECRET_TOKEN", "\"gytiF01wwYNRzHddkdkSntt3afOqR8NfIXh2yUJC0ZNkn\""
-            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\""
+            buildConfigField "String", "TWEET_TIMESPAN", "\"600000\"" // Max lifespan will be 10 minutes
+            buildConfigField "String", "TWEET_HAS_TIMESPAN", "\"true\"" // switch 'true' or 'false'
         }
     }
 
@@ -45,6 +47,12 @@ android {
 
     kotlinOptions {
         jvmTarget = configParams.kotlinoptions
+    }
+
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
 }

@@ -1,8 +1,11 @@
 package com.lastreacts.filteredfeeded.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lastreacts.enums.Errors
+import com.lastreacts.filteredfeeded.BuildConfig
 import com.lastreacts.filteredfeeded.data.local.TweetDao
 import com.lastreacts.filteredfeeded.data.local.TweetDb
 import com.lastreacts.filteredfeeded.extensions.shouldDisplayCurrentTweet
@@ -34,10 +37,14 @@ class TweetListViewModel(
         streamDataListener.initStream(this@TweetListViewModel, words)
     }
 
-    suspend fun showCurrentListOfTweets() = withContext(Dispatchers.IO) {
-        _model.postValue(UiModel.Content(tweetDao.getListOfTweets().filter {
-            it.shouldDisplayCurrentTweet()
-        }))
+    suspend fun showCurrentListOfTweetsOrError() = withContext(Dispatchers.IO) {
+        val listOfTweets = tweetDao.getListOfTweets()
+        if (listOfTweets.isEmpty()) {
+            _model.postValue(UiModel.OnError(Errors.NO_TWEETS_SAVED.value))
+            Log.e(Errors.NO_TWEETS_SAVED.toString(), Errors.NO_TWEETS_SAVED.value)
+        } else {
+            _model.postValue(UiModel.Content(getListOfTweets()))
+        }
     }
 
     override fun onException(ex: Exception?) {
@@ -59,6 +66,17 @@ class TweetListViewModel(
     suspend fun deleteTweet(tweetDb: TweetDb, position: Int) = withContext(Dispatchers.IO) {
         tweetDao.deleteTweet(tweetDb)
         _model.postValue(UiModel.DeleteTweet(position))
+    }
+
+
+    private fun getListOfTweets(): List<TweetDb> {
+        return if(BuildConfig.TWEET_HAS_TIMESPAN.toBoolean()) {
+            tweetDao.getListOfTweets().filter {
+                it.shouldDisplayCurrentTweet()
+            }
+        } else {
+            tweetDao.getListOfTweets()
+        }
     }
 
     private fun deleteAllTweetsWhenStreamingStartsSuccessful() {

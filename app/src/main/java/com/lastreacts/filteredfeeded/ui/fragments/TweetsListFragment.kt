@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lastreacts.enums.Errors
 import com.lastreacts.filteredfeeded.R
 import com.lastreacts.filteredfeeded.extensions.EMPTY
 import com.lastreacts.filteredfeeded.extensions.getViewModel
@@ -61,7 +62,7 @@ class TweetsListFragment : BaseFragment() {
             if (shouldStartTwitterStream(savedInstanceState)) {
                 viewModel.initStream(words)
             } else {
-                viewModel.showCurrentListOfTweets()
+                viewModel.showCurrentListOfTweetsOrError()
             }
         }
     }
@@ -72,7 +73,17 @@ class TweetsListFragment : BaseFragment() {
                 model.tweets.toMutableList()
             is TweetListViewModel.UiModel.AddTweet -> adapter.addItem(model.tweet)
             is TweetListViewModel.UiModel.DeleteTweet -> adapter.deleteTweetAtPosition(model.position)
-            is TweetListViewModel.UiModel.OnError -> Toast.makeText(
+            is TweetListViewModel.UiModel.OnError -> showStoredListOfTweetsOrToast(model)
+        }
+    }
+
+    private fun showStoredListOfTweetsOrToast(model: TweetListViewModel.UiModel.OnError) {
+        if (model.error.contains(Errors.EXCEED_REQUEST.value, false)) {
+            GlobalScope.launch {
+                viewModel.showCurrentListOfTweetsOrError()
+            }
+        } else {
+            Toast.makeText(
                 context,
                 model.error,
                 Toast.LENGTH_SHORT

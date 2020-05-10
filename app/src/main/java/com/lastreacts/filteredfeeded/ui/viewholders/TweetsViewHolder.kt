@@ -2,6 +2,7 @@ package com.lastreacts.filteredfeeded.ui.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.lastreacts.filteredfeeded.BuildConfig
 import com.lastreacts.filteredfeeded.data.local.TweetDb
 import com.lastreacts.filteredfeeded.extensions.shouldDisplayCurrentTweet
 import kotlinx.android.synthetic.main.row_tweet.view.*
@@ -24,7 +25,10 @@ class TweetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     ) {
         with(itemView) {
             title.text = tweet.tweet
-            checkTweet(tweet, listener, position)
+
+            if(BuildConfig.TWEET_HAS_TIMESPAN.toBoolean()) {
+                checkTweet(tweet, listener, position)
+            }
         }
     }
 
