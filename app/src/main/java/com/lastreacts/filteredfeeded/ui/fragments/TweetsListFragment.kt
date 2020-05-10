@@ -56,6 +56,11 @@ class TweetsListFragment : BaseFragment(), StreamEventsImpl {
         viewModel.initStream(this, words)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.onStop()
+    }
+
     private fun retrieveWordsDataFromBundle() {
         arguments?.let {
             if (it.containsKey(WORDS_KEY)) {
@@ -72,6 +77,9 @@ class TweetsListFragment : BaseFragment(), StreamEventsImpl {
 
     override fun onStatusReceived(status: Status?) {
         print(status?.text)
+        status?.let {
+            adapter.addItem(it.text)
+        }
     }
 
     override fun onExemption(exception: Exception?) {

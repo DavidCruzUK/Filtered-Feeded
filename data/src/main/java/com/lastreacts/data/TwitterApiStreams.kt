@@ -19,7 +19,9 @@ class TwitterApiStreams : StreamDataListener {
         private const val SPLIT_PATTERN = ","
     }
 
-    override fun initStream(listener: StatusListener, words: String): TwitterStream? {
+    private lateinit var twitterStream: TwitterStream
+
+    override fun initStream(listener: StatusListener, words: String) {
         val wordsList = words.split(SPLIT_PATTERN).toTypedArray()
 
         val cb = ConfigurationBuilder().apply {
@@ -28,7 +30,7 @@ class TwitterApiStreams : StreamDataListener {
             setOAuthAccessToken(accessTokenValue)
             setOAuthAccessTokenSecret(accessTokenSecretValue)
         }
-        val twitterStream = TwitterStreamFactory(cb.build()).instance
+        twitterStream = TwitterStreamFactory(cb.build()).instance
 
         val filterQuery = FilterQuery()
 
@@ -38,8 +40,10 @@ class TwitterApiStreams : StreamDataListener {
 
         twitterStream.filter(filterQuery)
 
-        return twitterStream
+    }
 
+    override fun onStop() {
+        twitterStream.clearListeners()
     }
 
 }

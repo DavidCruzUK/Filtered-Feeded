@@ -9,8 +9,13 @@ import kotlin.properties.Delegates
 
 class TweetsAdapter(tweetsList: List<String> = emptyList(), private val listener: (id: Int) -> Unit) : RecyclerView.Adapter<TweetsViewHolder>() {
 
-    var tweetsList: List<String> by Delegates.observable(tweetsList) { _, _, _ ->
+    private var tweetsList: MutableList<String> by Delegates.observable(tweetsList.toMutableList()) { _, _, _ ->
         notifyDataSetChanged()
+    }
+
+    fun addItem(text: String) {
+        tweetsList.add(text)
+        notifyItemInserted(tweetsList.size-1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsViewHolder {
