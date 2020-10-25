@@ -1,9 +1,9 @@
 # Filtered-Feeded (Twitter client)
 Android client to filter worldwide tweets by a specific words. 
 
-Writed in Kotlin 1.7.32
+Writed in Kotlin 1.3.72
 
-###Steps:
+### Steps:
 1. Create an account in: [Twitter developer](https://developer.twitter.com/)
 
 2. Then change the following parameters in *build.gradle*:
